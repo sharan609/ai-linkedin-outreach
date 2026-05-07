@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI-powered LinkedIn outreach assistant — discover recruiters and generate personalized messages instantly." />
+  <title>Outreach Assistant — AI LinkedIn Recruiter Finder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== HEADER ====== -->
+  <header class="header" role="banner">
+    <a href="#" class="header__brand" aria-label="Outreach Assistant home">
+      <!-- Briefcase / Rocket icon -->
+      <span class="header__brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+          <path d="M12 12v9" />
+          <path d="m8 17 4 4 4-4" />
+        </svg>
+      </span>
+      Outreach Assistant
+    </a>
+
+    <div class="header__right">
+      <button id="demoToggle" class="demo-toggle" aria-pressed="false" aria-label="Toggle demo mode">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3" />
+        </svg>
+        Demo
+      </button>
+      <span class="header__badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect x="2" y="9" width="4" height="12" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+      
+      </span>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="main" id="main">
+
+    <!-- SEARCH SECTION -->
+    <section class="search-section" id="searchSection" aria-labelledby="searchHeading">
+      <h1 id="searchHeading" class="search-section__heading">Find Recruiters</h1>
+      <p class="search-section__subheading">
+        Discover and message recruiters with AI-personalized outreach
+      </p>
+
+      <form id="searchForm" class="search-form" novalidate>
+        <div class="search-form__row">
+          <div class="form-group">
+            <label for="roleInput" class="sr-only">Role</label>
+            <input id="roleInput" class="form-input" type="text"
+              placeholder="e.g. Software Engineer Intern" required autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="locationInput" class="sr-only">Location</label>
+            <input id="locationInput" class="form-input" type="text"
+              placeholder="e.g. Bangalore" required autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="form-group form-group--full">
+          <label for="skillsInput" class="sr-only">Skills (comma-separated)</label>
+          <input id="skillsInput" class="form-input" type="text"
+            placeholder="Your skills (comma-separated)" autocomplete="off" />
+        </div>
+
+        <button id="searchBtn" class="btn-primary" type="submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <span id="searchBtnText">Find Recruiters</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- RESULTS SECTION (hidden by default) -->
+    <section class="results-section" id="resultsSection" aria-labelledby="resultsHeading" style="display:none;">
+      <div class="results-header">
+        <h2 id="resultsHeading" class="results-count">
+          <span id="resultsCountNum">0</span> recruiters found
+        </h2>
+        <div>
+          <label for="filterSelect" class="sr-only">Filter by focus</label>
+          <select id="filterSelect" class="filter-select">
+            <option value="all">All</option>
+            <option value="backend">Backend</option>
+            <option value="frontend">Frontend</option>
+            <option value="fullstack">Full Stack</option>
+            <option value="internship">Internship</option>
+            <option value="ai_ml">AI / ML</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="resultsGrid" class="results-grid" role="list">
+        <!-- Cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- LOADING SKELETON (hidden by default) -->
+    <section class="results-section" id="loadingSection" style="display:none;" aria-label="Loading results">
+      <div class="results-grid" id="skeletonGrid">
+        <!-- 6 skeleton cards injected by JS -->
+      </div>
+    </section>
+
+    <!-- EMPTY STATE (hidden by default) -->
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <div class="empty-state__icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+          <path d="m9 9 4 4" />
+          <path d="m13 9-4 4" />
+        </svg>
+      </div>
+      <h2 class="empty-state__title">No recruiters found</h2>
+      <p class="empty-state__subtitle">Try a different role or location</p>
+      <button id="emptyRetryBtn" class="btn-secondary" type="button">Try again</button>
+    </div>
+
+    <!-- ERROR STATE (hidden by default) -->
+    <div id="errorState" class="error-state" style="display:none;">
+      <div class="error-state__card">
+        <div class="error-state__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <p id="errorMessage" class="error-state__message">Something went wrong.</p>
+        <button id="errorRetryBtn" class="btn-danger" type="button">Try again</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

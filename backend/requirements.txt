@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+selenium
+beautifulsoup4
+requests
+anthropic
+python-dotenv
+httpx
