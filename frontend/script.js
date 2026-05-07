@@ -3,7 +3,7 @@
    ============================================================ */
 
 // ---- Configuration ----
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'https://ai-linkedin-outreach.onrender.com';
 const ENDPOINTS = {
   find: `${API_BASE}/find`,
   regenerate: `${API_BASE}/regenerate`,
