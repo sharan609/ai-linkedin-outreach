@@ -6,3 +6,4 @@ requests
 anthropic
 python-dotenv
 httpx
+google-search-results
